@@ -1,46 +1,75 @@
-const express = require('express');
-const nodemailer = require('nodemailer');
-const cors = require('cors');
-require('dotenv').config();
+        const express = require("express");
+        const nodemailer = require("nodemailer");
+        const cors = require("cors");
+        require("dotenv").config();
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+        const app = express();
+        app.use(cors());
+        app.use(express.json());
 
-const PORT = process.env.PORT || 5000;
+        const PORT = process.env.PORT || 5000;
 
-app.get('/', (req, res) => {
-  res.send('Email server is running');
-});
+        /* ROOT CHECK */
+        app.get("/", (req, res) => {
+          res.send("✅ CW365 Email Server is Running");
+        });
 
-app.post('/send-email', async (req, res) => {
-  const { subject, text, html } = req.body;
+        /* SEND EMAIL */
+        app.post("/send-email", async (req, res) => {
+          try {
+            const subject = req.body.subject;
+            const text = req.body.text;
+            const html = req.body.html;
 
-  let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+            if (!subject) {
+              return res.status(400).json({ error: "Subject is required" });
+            }
 
-  let mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: process.env.RECEIVER_EMAIL,
-    subject: subject || 'No Subject',
-    text: text || '',
-    html: html || '',
-  };
+            const transporter = nodemailer.createTransport({
+              service: "gmail",
+              auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+              },
+            });
 
-  try {
-    await transporter.sendMail(mailOptions);
-    res.status(200).send({ message: 'Email sent successfully' });
-  } catch (error) {
-    console.error('Error sending email:', error);
-    res.status(500).send({ error: 'Failed to send email' });
-  }
-});
+            const mailOptions = {
+              from: CW365 Support <${process.env.EMAIL_USER}>,
+              to: process.env.RECEIVER_EMAIL,
+              subject: subject,
+              text: text || "CW365 Notification",
+              html:
+                html ||
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+                <div style="font-family:Segoe UI;padding:20px;background:#f5f7fb">
+                  <div style="max-width:500px;margin:auto;background:#ffffff;padding:20px;border-radius:12px">
+                    <h2 style="color:#4f46e5">📢 CW365 Notification</h2>
+                    <p>This is a system generated email from CW365.</p>
+                    <p style="margin-top:20px;font-size:12px;color:#777">
+                      Do not reply to this email.
+                    </p>
+                  </div>
+                </div>
+
+            };
+
+            await transporter.sendMail(mailOptions);
+
+            res.status(200).json({
+              success: true,
+              message: "✅ Email sent successfully",
+            });
+
+          } catch (error) {
+            console.error("❌ Email error:", error);
+            res.status(500).json({
+              success: false,
+              error: "Failed to send email",
+            });
+          }
+        });
+
+        /* START SERVER */
+        app.listen(PORT, "0.0.0.0", () => {
+          console.log(🚀 Server is running on port ${PORT});
+        });
