@@ -25,13 +25,15 @@
               return res.status(400).json({ error: "Subject is required" });
             }
 
-            const transporter = nodemailer.createTransport({
-              service: "gmail",
-              auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
-              },
-            });
+           const transporter = nodemailer.createTransport({
+  host: "smtp.hostinger.com",
+  port: 587,
+  secure: false, // IMPORTANT for port 587
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
             const mailOptions = {
   from: `CW365 Support <${process.env.EMAIL_USER}>`,
