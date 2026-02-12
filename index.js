@@ -34,7 +34,7 @@
             });
 
             const mailOptions = {
-              from: CW365 Support <${process.env.EMAIL_USER}>,
+              from: 'CW365 Support <${process.env.EMAIL_USER}>',
               to: process.env.RECEIVER_EMAIL,
               subject: subject,
               text: text || "CW365 Notification",
@@ -71,5 +71,5 @@
 
         /* START SERVER */
         app.listen(PORT, "0.0.0.0", () => {
-          console.log(🚀 Server is running on port ${PORT});
+          console.log('🚀 Server is running on port ${PORT}');
         });
