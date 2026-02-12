@@ -34,21 +34,21 @@
             });
 
             const mailOptions = {
-  from: 'CW365 Support <${process.env.EMAIL_USER}>',
+  from: CW365 Support <${process.env.EMAIL_USER}>,
   to: process.env.RECEIVER_EMAIL,
   subject: subject || "CW365 Notification",
-  text: text || "This is a system generated email.",
-  html: html || '
+  text: text || "This is a system generated email from CW365.",
+  html: html || 
     <div style="font-family:Segoe UI;padding:20px;background:#f5f7fb">
       <div style="max-width:500px;margin:auto;background:#ffffff;padding:20px;border-radius:12px">
-        <h2 style="color:#4d6ef5">CW365 Notification</h2>
+        <h2 style="color:#4a6cf7">CW365 Notification</h2>
         <p>This is a system generated email from CW365.</p>
         <p style="margin-top:20px;font-size:12px;color:#777">
           Do not reply to this email.
         </p>
       </div>
     </div>
-  '
+  
 };
             await transporter.sendMail(mailOptions);
 
